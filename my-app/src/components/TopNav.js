@@ -18,10 +18,9 @@ const TopNav = () => {
                 Inventory summary
             </Typography>
             <Button onClick={handleAddNewProduct} variant="contained" color="primary"
-                style={{ marginLeft: 'auto', marginRight: '10px', borderRadius: '12px', backgroundColor: '#5570F1', width: '205px', height: '36px', display: 'flex', gap: '10px' }}>
+                sx={{ marginLeft: 'auto', marginRight: '10px', borderRadius: '12px', backgroundColor: '#5570F1', width: '205px', height: '36px', display: 'flex', gap: '10px' }}>
                 <AddIcon />
                 <Typography variant="h6" color="inherit" noWrap fontSize='12px'>
-
                     Add New Product
                 </Typography>
             </Button>

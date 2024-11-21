@@ -125,10 +125,10 @@ export default function InventoryTable() {
         setFilterCategory(event.target.value);
     };
 
-    const handleBulkAction = () => {
-        // Implement bulk action logic here
-        console.log('Bulk action executed');
-    };
+    // const handleBulkAction = () => {
+    //     // Implement bulk action logic here
+    //     console.log('Bulk action executed');
+    // };
 
     const filteredRows = data.filter(row => 
         (row.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -203,11 +203,11 @@ export default function InventoryTable() {
                                 <MenuItem value="Watches">Watches</MenuItem>
                             </Select>
                         </FormControl>
-                        {selected.length > 0 && (
+                        {/* {selected.length > 0 && (
                             <Button variant="contained" color="primary" onClick={handleBulkAction}>
                                 Bulk Action
                             </Button>
-                        )}
+                        )} */}
                     </Box>
                 </Toolbar>
                 <TableContainer>
@@ -291,9 +291,20 @@ export default function InventoryTable() {
                                             </Select>
                                         </TableCell>
                                         <TableCell>
-                                            <Typography width={"Hug78px"} height={"hug23px"} top={"13px"} left={"1134px"} borderRadius={"8px"} paddingX={"4px"} paddingY={"11px"} gap={"10px"} bgcolor={"#5570F129"}>
-                                            {row.status}
-                                                </Typography></TableCell>
+                                            <Typography
+                                                width={"Hug78px"}
+                                                height={"hug23px"}
+                                                top={"13px"}
+                                                left={"1134px"}
+                                                borderRadius={"8px"}
+                                                paddingX={"4px"}
+                                                paddingY={"11px"}
+                                                gap={"10px"}
+                                                bgcolor={row.status === 'Published' ? "#5570F129" : "#FFF2E2"}
+                                            >
+                                                {row.status}
+                                            </Typography>
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
