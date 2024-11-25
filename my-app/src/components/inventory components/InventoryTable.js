@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Box,
     Table,
@@ -13,7 +14,6 @@ import {
     Toolbar,
     Typography,
     Checkbox,
-    Button,
     Select,
     MenuItem,
     TextField,
@@ -24,12 +24,11 @@ import {
 import { alpha } from '@mui/material/styles';
 import { visuallyHidden } from '@mui/utils';
 import SearchIcon from '@mui/icons-material/Search';
-import FilterListIcon from '@mui/icons-material/FilterList';
 
 const data = [
-    { id: 1, name: 'iPhone 13 Pro', category: 'Gadgets', unitPrice: '₦725,000.00', inStock: 8, discount: '₦0.00', totalValue: '₦5,800,000.00', status: 'Published' },
-    { id: 2, name: 'Samsung Galaxy S22', category: 'Gadgets', unitPrice: '₦640,000.00', inStock: 5, discount: '₦15,000.00', totalValue: '₦3,200,000.00', status: 'Published' },
-    { id: 3, name: 'HP Pavilion 15', category: 'Laptops', unitPrice: '₦450,000.00', inStock: 12, discount: '₦0.00', totalValue: '₦5,400,000.00', status: 'Published' },
+    { id: 1, name: 'iPhone 13 Pro', category: 'Gadgets', unitPrice: '₦725,000.00', inStock: 8, discount: '₦0.00', totalValue: '₦5,800,000.00', status: 'Published',Date:'2021-10-10' },
+    { id: 2, name: 'Samsung Galaxy S22', category: 'Gadgets', unitPrice: '₦640,000.00', inStock: 5, discount: '₦15,000.00', totalValue: '₦3,200,000.00', status: 'Published',Date:'2021-10-10' },
+    { id: 3, name: 'HP Pavilion 15', category: 'Laptops', unitPrice: '₦450,000.00', inStock: 12, discount: '₦0.00', totalValue: '₦5,400,000.00', status: 'Published' ,Date:'2021-10-10'},
     { id: 4, name: 'Dell XPS 13', category: 'Laptops', unitPrice: '₦500,000.00', inStock: 3, discount: '₦0.00', totalValue: '₦1,500,000.00', status: 'Published' },
     { id: 5, name: 'Apple Watch Series 7', category: 'Watches', unitPrice: '₦250,000.00', inStock: 10, discount: '₦0.00', totalValue: '₦2,500,000.00', status: 'Published' },
     { id: 6, name: 'Samsung Galaxy Watch 4', category: 'Watches', unitPrice: '₦200,000.00', inStock: 7, discount: '₦0.00', totalValue: '₦1,400,000.00', status: 'Published' },
@@ -63,7 +62,8 @@ function getComparator(order, orderBy) {
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export default function InventoryTable() {
+export default function InventoryTable({ sidebarOpen }) {
+    const navigate = useNavigate();
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [selected, setSelected] = useState([]);
@@ -130,9 +130,9 @@ export default function InventoryTable() {
     //     console.log('Bulk action executed');
     // };
 
-    const filteredRows = data.filter(row => 
+    const filteredRows = data.filter(row =>
         (row.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        row.category.toLowerCase().includes(searchQuery.toLowerCase())) &&
+            row.category.toLowerCase().includes(searchQuery.toLowerCase())) &&
         (filterCategory === '' || row.category === filterCategory)
     );
 
@@ -142,15 +142,22 @@ export default function InventoryTable() {
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const handleStatusChange = (id, newStatus) => {
-        const updatedData = data.map(item => 
-            item.id === id ? { ...item, status: newStatus } : item
-        );
-        // Update the state or data source with updatedData
+        if (newStatus === 'View') {
+            const selectedItem = data.find(item => item.id === id);
+            navigate('/new-inventory-view', { state: { productData: selectedItem } });
+        } else {
+            const updatedData = data.map(item =>
+                item.id === id ? { ...item, status: newStatus } : item
+            );
+            // Update the state or data source with updatedData
+        }
     };
 
+    const containerWidth = sidebarOpen ? 'calc(100% - 240px)' : '100%';
+
     return (
-        <Box sx={{ width: '100%'}}>
-            <Paper sx={{ width: '100%', mb: 2, borderRadius:'20px' }}>
+        <Box sx={{ width: containerWidth }}>
+            <Paper sx={{ width: '100%', mb: 2, borderRadius: '20px', boxShadow: 'none' }}>
                 <Toolbar
                     sx={{
                         pl: { sm: 2 },
@@ -284,10 +291,11 @@ export default function InventoryTable() {
                                                 value={row.status}
                                                 onChange={(event) => handleStatusChange(row.id, event.target.value)}
                                                 displayEmpty
-                                                inputProps={{ 'aria-label': 'Without label' }} 
+                                                inputProps={{ 'aria-label': 'Without label' }}
                                             >
                                                 <MenuItem value="Published">Published</MenuItem>
                                                 <MenuItem value="Unpublished">Unpublished</MenuItem>
+                                                <MenuItem value="View">View</MenuItem>
                                             </Select>
                                         </TableCell>
                                         <TableCell>

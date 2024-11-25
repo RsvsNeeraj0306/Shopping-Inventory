@@ -1,15 +1,26 @@
 // src/components/FormSection.js
-import React from 'react';
-import { Box, TextField, Typography, Grid, Switch, FormControlLabel, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
-import { Height } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { Box, TextField, Typography, Switch, FormControlLabel, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
+
 
 const FormSection = ({ sidebarOpen }) => {
+    const [isDiscountEnabled, setIsDiscountEnabled] = useState(false);
+    const [isExpiryEnabled, setIsExpiryEnabled] = useState(false);
+
+    const handleDiscountToggle = (event) => {
+        setIsDiscountEnabled(event.target.checked);
+    };
+
+    const handleExpiryToggle = (event) => {
+        setIsExpiryEnabled(event.target.checked);
+    };
+
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'white', gap: 2, padding: '10px', borderRadius: '14px', width: sidebarOpen ? '320px' : '100%' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'white', gap: 2, padding: '10px', borderRadius: '14px', width: sidebarOpen ? '320px' : '100%', height: '75%' }}>
             <Box display={"flex"} flexDirection={"column"} gap={2} sx={{ width: '100%' }}>
                 <TextField sx={{ backgroundColor: '#eff1f9', boxShadow: 'none' }} label="Product Name" fullWidth />
 
-                <FormControl fullWidth sx={{ backgroundColor: '#eff1f9', boxShadow: 'none' }} >
+                <FormControl fullWidth sx={{ backgroundColor: '#eff1f9', boxShadow: 'none', outline: 'none' }} >
                     <InputLabel>Select Product Category</InputLabel>
                     <Select label="Select Product Category">
                         <MenuItem value="gadgets">Gadgets</MenuItem>
@@ -36,9 +47,54 @@ const FormSection = ({ sidebarOpen }) => {
                     </Select>
                 </FormControl>
 
-                <Box display="flex" justifyContent="space-between" padding={"10px"}>
-                    <FormControlLabel control={<Switch />} label="Add Discount" />
-                    <FormControlLabel control={<Switch />} label="Add Expiry Date" />
+                <Box display={"flex"} flexDirection={"column"}  >
+                    <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} flex={1}  >
+                        <Typography fontSize={"16px"} fontWeight={"500px"} color='#8B8D97' width={"68px"} height={"19px"}>
+                            Discount</Typography>
+                        <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} width="163.25px">
+                            <FormControlLabel control={<Switch checked={isDiscountEnabled} onChange={handleDiscountToggle} />} />
+                            <Typography fontSize={"14px"} fontWeight={"400px"}>
+                                Add Discount</Typography>
+                        </Box>
+                    </Box>
+                    {isDiscountEnabled && (
+                        <Box display={"flex"} flexDirection={"row"} gap={2} mt={2}>
+                            
+                            <FormControl fullWidth sx={{ backgroundColor: '#eff1f9', boxShadow: 'none' }}>
+                                <InputLabel>Discount Type</InputLabel>
+                                <Select label="Discount Type">
+                                    <MenuItem value="percentage">Percentage</MenuItem>
+                                    <MenuItem value="fixed">Fixed Amount</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <TextField label="Discount Value" type="number" fullWidth sx={{ backgroundColor: '#eff1f9', boxShadow: 'none' }} />
+                        </Box>
+                    )}
+                    <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} flex={1}>
+                        <Typography fontSize={"16px"} fontWeight={"500px"} color='#8B8D97' width={"88px"} height={"19px"}>
+                            Expiry Date</Typography>
+                        <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} >
+                            <FormControlLabel control={<Switch checked={isExpiryEnabled} onChange={handleExpiryToggle}/>} />
+                            <Typography fontSize={"14px"} fontWeight={"400px"}>
+                               Add Expiry Date</Typography>
+                        </Box>
+                    </Box>
+                    {isExpiryEnabled && (
+                        <Box display={"flex"} flexDirection={"row"} gap={2} mt={2}>
+                            <TextField
+                                label="Expiry Date"
+                                type="date"
+                                fullWidth
+                                defaultValue={"2021-12-12"}
+                                slotProps={{
+                                    inputLabel: {
+                                        shrink: true,
+                                    }
+                                }}
+                                sx={{ backgroundColor: '#eff1f9', fontFamily: 'Arial, sans-serif', fontSize: '14px', boxShadow: 'none' }}
+                            />
+                        </Box>
+                    )}
                 </Box>
             </Box>
 
@@ -51,6 +107,7 @@ const FormSection = ({ sidebarOpen }) => {
                         label="Date Added"
                         type="date"
                         fullWidth
+                        defaultValue={"2021-12-12"}
                         slotProps={{
                             inputLabel: {
                                 shrink: true,
@@ -62,6 +119,7 @@ const FormSection = ({ sidebarOpen }) => {
                         label="Time Added"
                         type="time"
                         fullWidth
+                        defaultValue="12:00"
                         slotProps={{
                             inputLabel: {
                                 shrink: true,

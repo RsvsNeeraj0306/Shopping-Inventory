@@ -6,6 +6,7 @@ import InventorySummary from './components/inventory components/InventorySummary
 import InventoryTable from './components/inventory components/InventoryTable';
 import NewInventoryItem from './components/newInventorypage/NewInventoryItem';
 import Sidebar from './components/Sidebar'; // Import Sidebar
+import NewInventoryView from './components/newInventoryView/NewInventoryView';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                             <Route index element={<InventorySummary />} />
                             <Route path="inventory" element={<InventoryTable />} />
                             <Route path="new-inventory-item" element={<NewInventoryItem />} />
+                            <Route path="new-inventory-view" element={<NewInventoryView />} />
                         </Route>
                     </Routes>
                 </div>

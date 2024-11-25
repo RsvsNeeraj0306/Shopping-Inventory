@@ -8,7 +8,7 @@ const UploadImageSection = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderRadius: 2, width: '310px', padding: '10px', height: '448px' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', justifyContent: 'center', backgroundColor: '#eff1f9', p: '2', borderRadius: 2, width: '281px', padding: '10px', height: '320px' }}>
-                <ImageIcon sx={{ height: '56px', width: '56px' }} />
+                <ImageIcon sx={{ height: '56px', width: '56px' ,color:'rgb(25, 118, 210)'}} />
                 <Button variant="outlined" component="label">
                     <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} gap={1} sx={{ width: '100%', height: '100%' }}>
                         <CloudUploadIcon />
